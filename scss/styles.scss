@@ -1,0 +1,337 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: $font;
+  color: $ink;
+  background:
+    radial-gradient(circle at top left, rgba($paper, 0.55), transparent 32%),
+    linear-gradient(180deg, $bg 0%, $bg-accent 100%);
+  line-height: 1.5;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.page {
+  width: min(#{$page-width}, calc(100% - #{$space-xl}));
+  margin: 0 auto;
+  padding: $space-l 0 $space-3xl;
+}
+
+.product {
+  display: grid;
+  gap: $space-xl;
+  padding: $space-m;
+  background: $surface;
+  border: 1px solid rgba($paper, 0.7);
+  border-radius: $radius-xl;
+  box-shadow: $shadow;
+
+  &__gallery {
+    overflow: hidden;
+    border-radius: $radius-l;
+    background: $surface-muted;
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: $paper;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+  }
+
+  &__category {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-s;
+    margin: 0;
+    font-size: $font-xs;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $accent;
+  }
+
+  &__origin {
+    color: $muted;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    font-weight: 500;
+
+    &::before {
+      content: "·";
+      margin-right: $space-s;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $serif;
+    font-size: $font-2xl;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  &__buy {
+    display: grid;
+    gap: $space-l;
+  }
+
+  &__packings {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-inline-size: 0;
+  }
+
+  &__packings-list {
+    display: grid;
+    gap: $space-s;
+  }
+
+  &__summary {
+    display: grid;
+    gap: $space-xs;
+  }
+
+  &__article {
+    margin: 0;
+    color: $muted;
+    font-size: $font-s;
+  }
+
+  &__prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: $space-s $space-m;
+  }
+
+  &__price {
+    color: $sale;
+    font-size: $font-2xl;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  &__old-price {
+    color: $old;
+    font-size: $font-xl;
+    font-weight: 500;
+  }
+
+  &__cart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-s;
+    width: 100%;
+    min-height: $control-height;
+    padding: $space-s $space-l;
+    border: 0;
+    border-radius: $radius-m;
+    background: $accent;
+    color: $paper;
+    font-size: $font-l;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      background: $accent-hover;
+      box-shadow: 0 $space-s $space-l rgba($accent, 0.28);
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent;
+      outline-offset: 3px;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.is-added {
+      background: $accent-added;
+    }
+  }
+
+  &__cart-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__description {
+    padding-top: $space-2xs;
+    border-top: 1px solid $line;
+
+    &-title {
+      margin: $space-m 0 $space-xs;
+      font-size: $font-m;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: $text;
+      font-size: $font-m;
+    }
+  }
+
+  &__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-xs;
+    margin: $space-m 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: $space-2xs $space-s;
+      border-radius: 999px;
+      background: $surface-chip;
+      color: $muted;
+      font-size: $font-xs;
+      font-weight: 600;
+    }
+  }
+}
+
+.packing {
+  position: relative;
+  cursor: pointer;
+
+  input {
+    @include visually-hidden;
+  }
+
+  &__card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: $control-height;
+    padding: $space-s $space-m;
+    border: 1px solid $line;
+    border-radius: $radius-s;
+    background: $paper;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  &__weight {
+    font-size: $font-l;
+    font-weight: 700;
+  }
+
+  &:hover &__card {
+    border-color: $line-hover;
+  }
+
+  &:has(input:checked) &__card {
+    border-color: $accent;
+    background: $accent-soft;
+  }
+
+  &:has(input:focus-visible) &__card {
+    outline: 2px solid $accent;
+    outline-offset: 3px;
+  }
+}
+
+@include tablet {
+  .page {
+    width: min(#{$page-width}, calc(100% - #{$space-3xl}));
+    padding: $space-2xl 0 $space-5xl;
+  }
+
+  .product {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: $space-xl;
+    padding: $space-l;
+    border-radius: $radius-2xl;
+  }
+
+  .product__title {
+    font-size: $font-3xl;
+  }
+
+  .product__packings-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .product__cart {
+    width: auto;
+    min-width: $cart-min-width;
+    justify-self: start;
+  }
+
+  .packing__card {
+    min-height: $control-height-l;
+  }
+}
+
+@include desktop {
+  .page {
+    width: $page-width;
+    padding: $space-4xl 0 $space-6xl;
+  }
+
+  .product {
+    grid-template-columns: $gallery-width 1fr;
+    gap: $space-4xl;
+    padding: $space-xl;
+  }
+
+  .product__info {
+    padding-top: $space-xs;
+  }
+
+  .product__title {
+    font-size: $font-4xl;
+  }
+
+  .product__price {
+    font-size: $font-3xl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packing__card,
+  .product__cart {
+    transition: none;
+  }
+
+  .product__cart:hover {
+    transform: none;
+  }
+}
